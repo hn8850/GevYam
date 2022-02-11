@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">GevYam</string>
+    <string name="SetTitle">Hello dear user! Please submit your information in the
+    desired boxes!</string>
+
+    <string name="GetTitle">Hello dear user! Here you can view information from the
+        worker and company databases! Press any cell to show more information!</string>
+
+    <string name="specific"> Here is some information about :</string>
+
+    <string name="stepByStep">
+        In order to add a new worker/company,toggle the switch below to "Add Info"
+
+        In order to view, change or remove information regarding workers and companies,
+        toggle the switch to "Show Information" and choose a category.
+
+        You will have the ability to change and delete information only by choosing this option.</string>
+    <string name="openingHub"> Hello dear user!
+        Welcome to the information settings hub!
+        This Activity is the hub for reading,changing, removing or adding information about companies
+        and workers!
+        in order to learn more about how to use these features,please press the 3 dots above and choose "Help"</string>
+    <string name="showInfoTutorial">Hello dear user, below is a table which hold all of the information you could want!
+    In order to access this information, simply click a cell in the table and all of the information regarding that cell will be shown.
+    Now you will also have access to edit the information displayed, and by toggling the switch below</string>
+
+</resources>

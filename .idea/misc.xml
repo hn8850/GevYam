@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/AndroidProj/GevYam/app/src/main/res/layout/activity_credits.xml" value="0.12239583333333333" />
+        <entry key="..\:/AndroidProj/GevYam/app/src/main/res/layout/activity_get_info.xml" value="0.25" />
+        <entry key="..\:/AndroidProj/GevYam/app/src/main/res/layout/activity_info_hub.xml" value="0.33" />
+        <entry key="..\:/AndroidProj/GevYam/app/src/main/res/layout/activity_main.xml" value="0.17753623188405798" />
+        <entry key="..\:/AndroidProj/GevYam/app/src/main/res/layout/activity_show_info.xml" value="0.24094202898550723" />
+        <entry key="..\:/AndroidProj/GevYam/app/src/main/res/layout/activity_specific.xml" value="0.340625" />
+        <entry key="..\:/AndroidProj/GevYam/app/src/main/res/layout/activity_worker_get_info.xml" value="0.2" />
+        <entry key="..\:/AndroidProj/GevYam/app/src/main/res/layout/activity_worker_show_info.xml" value="0.33" />
+        <entry key="..\:/AndroidProj/GevYam/app/src/main/res/menu/main.xml" value="0.2421875" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>

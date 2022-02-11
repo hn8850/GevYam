@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/mainhome"
+        android:icon="@drawable/worker"
+        android:title="Home Screen" />
+    <item
+        android:id="@+id/order"
+        android:title="Make an Order" />
+    <item
+        android:id="@+id/setting"
+        android:title="Information Settings" />
+    <item
+        android:id="@+id/infoOrder"
+        android:title="Previous Orders" />
+    <item
+        android:id="@+id/creds"
+        android:title="Credits" />
+</menu>
