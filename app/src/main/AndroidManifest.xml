@@ -10,6 +10,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GevYam">
         <activity
+            android:name=".showOrder"
+            android:exported="false" />
+        <activity
+            android:name=".FinishOrder"
+            android:exported="false" />
+        <activity
+            android:name=".GetOrder"
+            android:exported="false" />
+        <activity
             android:name=".specific"
             android:exported="false" />
         <activity

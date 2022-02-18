@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".FinishOrder">
+
+    <Space
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="8"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="20"
+            android:orientation="vertical">
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Please Choose A Company To Order From:"
+                android:textStyle="bold" />
+
+            <Spinner
+                android:id="@+id/chooseFC"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="7" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="80"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="75"
+                android:orientation="vertical">
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="5" />
+
+                <TextView
+                    android:id="@+id/tv1"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="10"
+                    android:gravity="center"
+                    android:text="Please Enter Your Worker Card Number:"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/getCard"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="10"
+                    android:ems="8"
+                    android:gravity="center"
+                    android:hint="Card Number?"
+                    android:inputType="textPersonName"
+                    tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck,TouchTargetSizeCheck" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="20"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="back"
+                android:text="Back" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="6" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/button4"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="20"
+            android:backgroundTint="@color/purple_500"
+            android:onClick="submit"
+            android:text="Submit!" />
+
+    </LinearLayout>
+
+    <Space
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1" />
+</LinearLayout>

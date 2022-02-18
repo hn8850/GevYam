@@ -12,6 +12,8 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.InputType;
+import android.text.SpannableString;
+import android.text.style.UnderlineSpan;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -46,6 +48,7 @@ public class specific extends AppCompatActivity implements CompoundButton.OnChec
     HelperDB hlp;
     ContentValues cv;
     Cursor crsr;
+    int keyID;
 
 
     Intent si, gi;
@@ -53,9 +56,11 @@ public class specific extends AppCompatActivity implements CompoundButton.OnChec
     int pos;
     int counter;
     Button edit;
-    Button clear;
+    Button cancel;
+    TextView clear;
+    SpannableString content;
 
-    int col1,col2, col3, col4, col5, col6, col7;
+    int col1, col2, col3, col4, col5, col6, col7;
     String[] oldData;
 
     @Override
@@ -69,7 +74,14 @@ public class specific extends AppCompatActivity implements CompoundButton.OnChec
         title = findViewById(R.id.Title);
         pic = findViewById(R.id.pic);
         edit = findViewById(R.id.edit2);
-        clear = findViewById(R.id.clear);
+        clear = findViewById(R.id.cleartext);
+        content = new SpannableString("Clear all");
+        content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
+
+        cancel = findViewById(R.id.cancel);
+        cancel.setVisibility(View.INVISIBLE);
+        cancel.setClickable(false);
+
 
         et1 = findViewById(R.id.et1);
         et2 = findViewById(R.id.et2);
@@ -91,7 +103,7 @@ public class specific extends AppCompatActivity implements CompoundButton.OnChec
 
 
         gi = getIntent();
-        pos = gi.getIntExtra("pos", -1);
+        keyID = gi.getIntExtra("keyID", 0);
         mode = gi.getIntExtra("mode", -1);
         hlp = new HelperDB(this);
         if (mode == 0) workerMode();
@@ -124,7 +136,12 @@ public class specific extends AppCompatActivity implements CompoundButton.OnChec
         tv4.setText("Company");
         tv5.setText("Phone Number");
         et5.setVisibility(View.VISIBLE);
-
+        et1.setInputType(InputType.TYPE_CLASS_TEXT);
+        et2.setInputType(InputType.TYPE_CLASS_TEXT);
+        et3.setInputType(InputType.TYPE_CLASS_NUMBER);
+        et4.setInputType(InputType.TYPE_CLASS_TEXT);
+        et5.setInputType(InputType.TYPE_CLASS_PHONE);
+        et5.setVisibility(View.VISIBLE);
 
 
         db = hlp.getWritableDatabase();
@@ -138,26 +155,30 @@ public class specific extends AppCompatActivity implements CompoundButton.OnChec
         col7 = crsr.getColumnIndex(Worker.ACTIVE);
 
 
-        crsr.moveToPosition(pos);
+        crsr.moveToPosition(keyID - 1);
 
         title.setText("Here is some information about : " + crsr.getString(col2) + " " + crsr.getString(col3));
         pic.setImageResource(R.drawable.worker);
 
-        et1.setText(crsr.getString(col2));
-        et2.setText(crsr.getString(col3));
-        et3.setText(crsr.getString(col4));
-        et4.setText(crsr.getString(col5));
-        et5.setText(crsr.getString(col6));
+
+        oldData = new String[]{crsr.getString(col2), crsr.getString(col3), crsr.getString(col4), crsr.getString(col5), crsr.getString(col6), ""};
+        et1.setText(oldData[0]);
+        et2.setText(oldData[1]);
+        et3.setText(oldData[2]);
+        et4.setText(oldData[3]);
+        et5.setText(oldData[4]);
         if (crsr.getInt(col7) == 0) {
             sw.setChecked(false);
             tVactive.setTextColor(Color.GREEN);
             tVactive.setTextSize(20);
             tVactive.setTypeface(null, Typeface.BOLD);
+            oldData[5] = "0";
         } else {
             sw.setChecked(true);
             tVNotActive.setTextColor(Color.RED);
             tVNotActive.setTextSize(20);
             tVNotActive.setTypeface(null, Typeface.BOLD);
+            oldData[5] = "1";
 
         }
 
@@ -179,6 +200,51 @@ public class specific extends AppCompatActivity implements CompoundButton.OnChec
         tv5.setText("");
         et5.setVisibility(View.INVISIBLE);
         pic.setImageResource(R.drawable.radio1);
+        et1.setInputType(InputType.TYPE_CLASS_TEXT);
+        et2.setInputType(InputType.TYPE_CLASS_NUMBER);
+        et3.setInputType(InputType.TYPE_CLASS_PHONE);
+        et4.setInputType(InputType.TYPE_CLASS_PHONE);
+        et5.setEnabled(false);
+        et5.setVisibility(View.INVISIBLE);
+
+        db = hlp.getWritableDatabase();
+        crsr = db.query(Company.TABLE_COMPANIES, null, null, null, null, null, null);
+        col1 = crsr.getColumnIndex(Company.KEY_ID);
+        col2 = crsr.getColumnIndex(Company.NAME);
+        col3 = crsr.getColumnIndex(Company.TAX);
+        col4 = crsr.getColumnIndex(Company.MAIN);
+        col5 = crsr.getColumnIndex(Company.SECONDARY);
+        col7 = crsr.getColumnIndex(Company.ACTIVE);
+
+
+        crsr.moveToPosition(keyID - 1);
+
+        title.setText("Here is some information about : " + crsr.getString(col2));
+
+
+        oldData = new String[]{crsr.getString(col2), crsr.getString(col3), crsr.getString(col4), crsr.getString(col5), ""};
+        et1.setText(oldData[0]);
+        et2.setText(oldData[1]);
+        et3.setText(oldData[2]);
+        et4.setText(oldData[3]);
+        if (crsr.getInt(col7) == 0) {
+            sw.setChecked(false);
+            tVactive.setTextColor(Color.GREEN);
+            tVactive.setTextSize(20);
+            tVactive.setTypeface(null, Typeface.BOLD);
+            oldData[4] = "0";
+        } else {
+            sw.setChecked(true);
+            tVNotActive.setTextColor(Color.RED);
+            tVNotActive.setTextSize(20);
+            tVNotActive.setTypeface(null, Typeface.BOLD);
+            oldData[4] = "1";
+
+        }
+
+
+        crsr.close();
+        db.close();
 
 
     }
@@ -227,7 +293,7 @@ public class specific extends AppCompatActivity implements CompoundButton.OnChec
 
     @Override
     public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-        if (!b){
+        if (!b) {
             tVactive.setTextColor(Color.GREEN);
             tVactive.setTextSize(20);
             tVactive.setTypeface(null, Typeface.BOLD);
@@ -236,8 +302,7 @@ public class specific extends AppCompatActivity implements CompoundButton.OnChec
             tVNotActive.setTextSize(15);
             tVNotActive.setTypeface(null, Typeface.NORMAL);
 
-        }
-        else{
+        } else {
             tVNotActive.setTextColor(Color.RED);
             tVNotActive.setTextSize(20);
             tVNotActive.setTypeface(null, Typeface.BOLD);
@@ -253,45 +318,79 @@ public class specific extends AppCompatActivity implements CompoundButton.OnChec
         counter++;
         if (counter % 2 == 1) {
             clear.setTextColor(Color.BLACK);
-            edit.setBackgroundColor(Color.rgb(98, 0, 238));
             edit.setText("Submit");
             edit_change(true);
             sw.setClickable(true);
-            if (mode == 0) {
-                oldData = new String[6];
-                oldData[0] = et1.getText().toString();
-                oldData[1] = et2.getText().toString();
-                oldData[2] = et3.getText().toString();
-                oldData[3] = et4.getText().toString();
-                oldData[4] = et5.getText().toString();
-                if (!sw.isChecked()) oldData[5] = "0";
-                else oldData[5] = "1";
-                et1.setInputType(InputType.TYPE_CLASS_TEXT);
-                et2.setInputType(InputType.TYPE_CLASS_TEXT);
-                et3.setInputType(InputType.TYPE_CLASS_NUMBER);
-                et4.setInputType(InputType.TYPE_CLASS_TEXT);
-                et5.setInputType(InputType.TYPE_CLASS_PHONE);
-                et5.setVisibility(View.VISIBLE);
-                et5.setEnabled(true);
+            clear.setText(content);
+            cancel.setText("Cancel");
+            cancel.setClickable(true);
+            cancel.setVisibility(View.VISIBLE);
+            cancel.setBackgroundColor(Color.rgb(98, 0, 238));
 
-
-            } else {
-                oldData = new String[5];
-                oldData[0] = et1.getText().toString();
-                oldData[1] = et2.getText().toString();
-                oldData[2] = et3.getText().toString();
-                oldData[3] = et4.getText().toString();
-                if (!sw.isChecked()) oldData[4] = "0";
-                else oldData[4] = "1";
-            }
 
         } else {
             clear.setTextColor(Color.WHITE);
-            edit.setBackgroundColor(Color.rgb(179, 173, 173));
+            clear.setText("");
             edit.setText("Edit");
+            sw.setClickable(false);
             edit_change(false);
-            cv = new ContentValues();
+            cancel.setBackgroundColor(Color.rgb(179, 173, 173));
+            cancel.setClickable(false);
 
+            cv = new ContentValues();
+            db = hlp.getWritableDatabase();
+
+            if (mode == 0) {
+                cv.put(Worker.FIRST_NAME, et1.getText().toString());
+                cv.put(Worker.LAST_NAME, et2.getText().toString());
+                cv.put(Worker.ID, et3.getText().toString());
+                cv.put(Worker.COMPANY_NAME, et4.getText().toString());
+                cv.put(Worker.PHONE_NUMBER, et5.getText().toString());
+                if (!sw.isChecked()) cv.put(Worker.ACTIVE, 0);
+                else cv.put(Worker.ACTIVE, 1);
+                db.update(Worker.TABLE_WORKERS, cv, Worker.KEY_ID + "=?", new String[]{String.valueOf(keyID)});
+            } else {
+                cv.put(Company.NAME, et1.getText().toString());
+                cv.put(Company.TAX, et2.getText().toString());
+                cv.put(Company.MAIN, et3.getText().toString());
+                cv.put(Company.SECONDARY, et4.getText().toString());
+                if (!sw.isChecked()) cv.put(Worker.ACTIVE, 0);
+                else cv.put(Worker.ACTIVE, 1);
+                db.update(Company.TABLE_COMPANIES, cv, Company.KEY_ID + "=?", new String[]{String.valueOf(keyID)});
+            }
+            db.close();
+            finish();
+        }
+    }
+
+    public void cancel(View view) {
+        edit_change(false);
+        et1.setText(oldData[0]);
+        et2.setText(oldData[1]);
+        et3.setText(oldData[2]);
+        et4.setText(oldData[3]);
+        if (mode==0){
+            et5.setText(oldData[4]);
+            if (oldData[5] == "0") sw.setChecked(false);
+            else sw.setChecked(true);
+        }
+        else
+        {
+            if (oldData[4] == "0") sw.setChecked(false);
+            else sw.setChecked(true);
+        }
+        sw.setClickable(false);
+
+        cancel.setBackgroundColor(Color.rgb(179, 173, 173));
+        cancel.setClickable(false);
+        clear.setTextColor(Color.WHITE);
+        clear.setText("");
+        edit.setText("Edit");
+
+
+        if (counter % 2 == 1) {
+            cv = new ContentValues();
+            db = hlp.getWritableDatabase();
             if (mode == 0) {
 
                 cv.put(Worker.FIRST_NAME, et1.getText().toString());
@@ -301,24 +400,20 @@ public class specific extends AppCompatActivity implements CompoundButton.OnChec
                 cv.put(Worker.PHONE_NUMBER, et5.getText().toString());
                 if (!sw.isChecked()) cv.put(Worker.ACTIVE, 0);
                 else cv.put(Worker.ACTIVE, 1);
-                db = hlp.getWritableDatabase();
 
-
-                db.update(Worker.TABLE_WORKERS, cv, Worker.FIRST_NAME + "=?", new String[]{oldData[0]});
-                db.update(Worker.TABLE_WORKERS, cv, Worker.LAST_NAME + "=?", new String[]{oldData[1]});
-                db.update(Worker.TABLE_WORKERS, cv, Worker.ID + "=?", new String[]{oldData[2]});
-                db.update(Worker.TABLE_WORKERS, cv, Worker.COMPANY_NAME + "=?", new String[]{oldData[3]});
-                db.update(Worker.TABLE_WORKERS, cv, Worker.PHONE_NUMBER + "=?", new String[]{oldData[4]});
-                db.update(Worker.TABLE_WORKERS, cv, Worker.ACTIVE + "=?", new String[]{oldData[5]});
-
-            }
-            else{
-
+                db.insert(Worker.TABLE_WORKERS, null, cv);
+            } else {
+                cv.put(Company.NAME, et1.getText().toString());
+                cv.put(Company.TAX, et2.getText().toString());
+                cv.put(Company.MAIN, et3.getText().toString());
+                cv.put(Company.SECONDARY, et4.getText().toString());
+                if (!sw.isChecked()) cv.put(Worker.ACTIVE, 0);
+                else cv.put(Worker.ACTIVE, 1);
+                db.insert(Company.TABLE_COMPANIES,null,cv);
             }
             db.close();
-
-
         }
+        counter = 0;
 
     }
 }

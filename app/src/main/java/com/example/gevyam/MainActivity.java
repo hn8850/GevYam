@@ -21,6 +21,10 @@ public class MainActivity extends AppCompatActivity {
         si = new Intent(this, infoHub.class);
         startActivity(si);
     }
+    public void orderGo(View view) {
+        si = new Intent(this,GetOrder.class);
+        startActivity(si);
+    }
 
 
     @Override
@@ -57,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
 
         return true;
     }
+
 
 
 }

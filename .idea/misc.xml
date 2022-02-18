@@ -4,10 +4,13 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/AndroidProj/GevYam/app/src/main/res/layout/activity_credits.xml" value="0.12239583333333333" />
+        <entry key="..\:/AndroidProj/GevYam/app/src/main/res/layout/activity_finish_order.xml" value="0.33" />
         <entry key="..\:/AndroidProj/GevYam/app/src/main/res/layout/activity_get_info.xml" value="0.25" />
+        <entry key="..\:/AndroidProj/GevYam/app/src/main/res/layout/activity_get_order.xml" value="0.264" />
         <entry key="..\:/AndroidProj/GevYam/app/src/main/res/layout/activity_info_hub.xml" value="0.33" />
         <entry key="..\:/AndroidProj/GevYam/app/src/main/res/layout/activity_main.xml" value="0.17753623188405798" />
         <entry key="..\:/AndroidProj/GevYam/app/src/main/res/layout/activity_show_info.xml" value="0.24094202898550723" />
+        <entry key="..\:/AndroidProj/GevYam/app/src/main/res/layout/activity_show_order.xml" value="0.240625" />
         <entry key="..\:/AndroidProj/GevYam/app/src/main/res/layout/activity_specific.xml" value="0.340625" />
         <entry key="..\:/AndroidProj/GevYam/app/src/main/res/layout/activity_worker_get_info.xml" value="0.2" />
         <entry key="..\:/AndroidProj/GevYam/app/src/main/res/layout/activity_worker_show_info.xml" value="0.33" />

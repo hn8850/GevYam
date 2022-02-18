@@ -6,7 +6,11 @@
     <string name="GetTitle">Hello dear user! Here you can view information from the
         worker and company databases! Press any cell to show more information!</string>
 
+    <string name="GetOrder">Hello dear user! Please enter what you would like to eat!</string>
+
     <string name="specific"> Here is some information about :</string>
+
+    <string name="Order"> Click any order to view more details!</string>
 
     <string name="stepByStep">
         In order to add a new worker/company,toggle the switch below to "Add Info"
