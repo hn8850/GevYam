@@ -1,7 +1,5 @@
 package com.example.gevyam;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.content.DialogInterface;
@@ -15,16 +13,14 @@ import android.text.InputType;
 import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.TextView;
 
-import java.util.ArrayList;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class specific extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener {
     Switch sw;
@@ -51,9 +47,8 @@ public class specific extends AppCompatActivity implements CompoundButton.OnChec
     int keyID;
 
 
-    Intent si, gi;
+    Intent gi;
     int mode;
-    int pos;
     int counter;
     Button edit;
     Button cancel;
@@ -371,13 +366,11 @@ public class specific extends AppCompatActivity implements CompoundButton.OnChec
         et4.setText(oldData[3]);
         if (mode==0){
             et5.setText(oldData[4]);
-            if (oldData[5] == "0") sw.setChecked(false);
-            else sw.setChecked(true);
+            sw.setChecked(!oldData[5].equals("0"));
         }
         else
         {
-            if (oldData[4] == "0") sw.setChecked(false);
-            else sw.setChecked(true);
+            sw.setChecked(!oldData[4].equals("0"));
         }
         sw.setClickable(false);
 
