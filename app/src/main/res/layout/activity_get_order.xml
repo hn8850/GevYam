@@ -71,6 +71,7 @@
                 android:layout_height="0dp"
                 android:layout_weight="10"
                 android:gravity="center"
+                android:text="Appetizer: "
                 android:textStyle="bold" />
 
             <Space
@@ -84,6 +85,7 @@
                 android:layout_height="0dp"
                 android:layout_weight="10"
                 android:gravity="center"
+                android:text="Main Dish:"
                 android:textStyle="bold" />
 
             <Space
@@ -97,6 +99,7 @@
                 android:layout_height="0dp"
                 android:layout_weight="10"
                 android:gravity="center"
+                android:text="Side Dish:"
                 android:textStyle="bold" />
 
             <Space
@@ -110,6 +113,7 @@
                 android:layout_height="0dp"
                 android:layout_weight="10"
                 android:gravity="center"
+                android:text="Dessert:"
                 android:textStyle="bold" />
 
             <Space
@@ -123,6 +127,7 @@
                 android:layout_height="0dp"
                 android:layout_weight="10"
                 android:gravity="center"
+                android:text="Drink:"
                 android:textStyle="bold" />
 
             <Space

@@ -4,10 +4,9 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import androidx.annotation.Nullable;
 public class HelperDB extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "GevYam.db";
-    private static final int DATABASE_VERSION = 5;
+    private static final int DATABASE_VERSION = 7;
     String strCreate, strDelete;
 
 

@@ -69,7 +69,7 @@ public class ShowInfo extends AppCompatActivity implements CompoundButton.OnChec
     int mode;
 
 
-    int col1, col2, col3, col4, col5, col7;
+    int col1, col2, col3, col4, col5, col6;
     String active;
     String tmp;
 
@@ -100,7 +100,7 @@ public class ShowInfo extends AppCompatActivity implements CompoundButton.OnChec
         showWork = new String[]{"Active Workers", "Inactive Workers", "All Workers"};
         sortWork = new String[]{"Card Number - Rising", "Card Number - Descending", "Last Name  A-->Z", "Last Name  Z-->A", "Company  A-->Z", "Company  Z-->A"};
         showComp = new String[]{"Active Companies", "Inactive Companies", "All Companies"};
-        sortComp = new String[]{"Company Number - Rising", "Company Number - Descending", "Name  A-->Z", "Name  Z-->A", "Tax Number  A-->Z", "Tax Number  Z-->A"};
+        sortComp = new String[]{"Company Number - Rising", "Company Number - Descending", "Name  A-->Z", "Name  Z-->A"};
         showSP = findViewById(R.id.showSP);
         sortSP = findViewById(R.id.sortSP);
         showADP = new ArrayAdapter<>(this,
@@ -129,11 +129,11 @@ public class ShowInfo extends AppCompatActivity implements CompoundButton.OnChec
         if (!sw.isChecked()) {
             sortWorker(true, Worker.KEY_ID);
             info.setText("Card Number, First Name, Last Name, ID, Company, Status");
-        }
-        else {
+            mode = 0;
+        } else {
             sortCompany(true, Company.KEY_ID);
             info.setText("Company Number, Company Name, Tax Number, Main Phone, Secondary Phone, Status");
-
+            mode = 1;
         }
 
     }
@@ -256,10 +256,9 @@ public class ShowInfo extends AppCompatActivity implements CompoundButton.OnChec
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-        if (adapterView == showSP){
-             showPos = i;
-        }
-        else{
+        if (adapterView == showSP) {
+            showPos = i;
+        } else {
             sortPos = i;
         }
 
@@ -273,9 +272,6 @@ public class ShowInfo extends AppCompatActivity implements CompoundButton.OnChec
         else if (sortPos == 1 && mode == 1) sortCompany(false, Company.KEY_ID);
         else if (sortPos == 2 && mode == 1) sortCompany(true, Company.NAME);
         else if (sortPos == 3 && mode == 1) sortCompany(false, Company.NAME);
-        else if (sortPos == 4 && mode == 1) sortCompany(true, Company.TAX);
-        else if (sortPos == 5 && mode == 1) sortCompany(false, Company.TAX);
-
 
     }
 
@@ -300,7 +296,7 @@ public class ShowInfo extends AppCompatActivity implements CompoundButton.OnChec
         col3 = crsr.getColumnIndex(Company.TAX);
         col4 = crsr.getColumnIndex(Company.MAIN);
         col5 = crsr.getColumnIndex(Company.SECONDARY);
-        col7 = crsr.getColumnIndex(Worker.ACTIVE);
+        col6 = crsr.getColumnIndex(Worker.ACTIVE);
 
         crsr.moveToFirst();
         while (!crsr.isAfterLast()) {
@@ -310,7 +306,7 @@ public class ShowInfo extends AppCompatActivity implements CompoundButton.OnChec
             FCmain = crsr.getString(col4);
             FCsecondary = crsr.getString(col5);
 
-            if (crsr.getInt(col7) == 0) active = "Active";
+            if (crsr.getInt(col6) == 0) active = "Active";
             else active = "Not Active";
 
 
@@ -349,7 +345,7 @@ public class ShowInfo extends AppCompatActivity implements CompoundButton.OnChec
         col3 = crsr.getColumnIndex(Worker.FIRST_NAME);
         col4 = crsr.getColumnIndex(Worker.ID);
         col5 = crsr.getColumnIndex(Worker.COMPANY_NAME);
-        col7 = crsr.getColumnIndex(Worker.ACTIVE);
+        col6 = crsr.getColumnIndex(Worker.ACTIVE);
 
         crsr.moveToFirst();
         while (!crsr.isAfterLast()) {
@@ -359,7 +355,7 @@ public class ShowInfo extends AppCompatActivity implements CompoundButton.OnChec
             ID = crsr.getString(col4);
             workCompany = crsr.getString(col5);
 
-            if (crsr.getInt(col7) == 0) active = "Active";
+            if (crsr.getInt(col6) == 0) active = "Active";
             else active = "Not Active";
 
 

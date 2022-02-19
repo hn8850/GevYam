@@ -152,7 +152,7 @@ public class specific extends AppCompatActivity implements CompoundButton.OnChec
 
         crsr.moveToPosition(keyID - 1);
 
-        title.setText("Here is some information about : " + crsr.getString(col2) + " " + crsr.getString(col3));
+        title.setText( R.string.specific + crsr.getString(col2) + " " + crsr.getString(col3));
         pic.setImageResource(R.drawable.worker);
 
 
@@ -214,7 +214,7 @@ public class specific extends AppCompatActivity implements CompoundButton.OnChec
 
         crsr.moveToPosition(keyID - 1);
 
-        title.setText("Here is some information about : " + crsr.getString(col2));
+        title.setText(R.string.specific+ crsr.getString(col2));
 
 
         oldData = new String[]{crsr.getString(col2), crsr.getString(col3), crsr.getString(col4), crsr.getString(col5), ""};

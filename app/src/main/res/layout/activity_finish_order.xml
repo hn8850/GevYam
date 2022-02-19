@@ -28,19 +28,12 @@
                 android:layout_height="0dp"
                 android:layout_weight="1" />
 
-            <TextView
-                android:id="@+id/textView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="Please Choose A Company To Order From:"
-                android:textStyle="bold" />
-
             <Spinner
                 android:id="@+id/chooseFC"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="7" />
+                android:layout_weight="7"
+                tools:ignore="SpeakableTextPresentCheck" />
 
             <Space
                 android:layout_width="match_parent"

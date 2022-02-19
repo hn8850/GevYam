@@ -19,6 +19,10 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+/**
+ * In this Activity, the user completes his food order, by choosing a food company and entering
+ * his worker card number.
+ */
 
 public class FinishOrder extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
@@ -26,25 +30,28 @@ public class FinishOrder extends AppCompatActivity implements AdapterView.OnItem
     EditText getCard;
     String keyIDWork;
     String keyIDComp;
+    ArrayList<Object> compIDs;
     Long keyIDMeal;
     boolean exist;
-    ArrayList food;
-
+    ArrayList<String> food;
     ArrayList<String> compsName;
     int spinPos;
     SQLiteDatabase db;
     HelperDB hlp;
     Cursor crsr;
     ArrayAdapter<String> adp;
-
     String[] columns;
-    int col1;
-
+    int col1, col2;
     ContentValues cv;
-
     Intent si;
     Intent gi;
 
+
+    /**
+     * Sets up the necessary information to complete a food order. Sets up a Spinner Widget with
+     * all of the active Food Companies.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,21 +59,21 @@ public class FinishOrder extends AppCompatActivity implements AdapterView.OnItem
 
         gi = getIntent();
         food = gi.getStringArrayListExtra("food");
-
         getCard = findViewById(R.id.getCard);
         FC = findViewById(R.id.chooseFC);
-
         compsName = new ArrayList<>();
+        compIDs = new ArrayList<>();
         compsName.add("Choose a Food Company");
-        columns = new String[]{Company.NAME};
+        columns = new String[]{Company.NAME, Company.KEY_ID};
         hlp = new HelperDB(this);
         db = hlp.getReadableDatabase();
         crsr = db.query(Company.TABLE_COMPANIES, columns, Company.ACTIVE + "=?", new String[]{"0"}, null, null, null, null);
         col1 = crsr.getColumnIndex(Company.NAME);
-
+        col2 = crsr.getColumnIndex(Company.KEY_ID);
         crsr.moveToFirst();
         while (!crsr.isAfterLast()) {
             compsName.add(crsr.getString(col1));
+            compIDs.add(crsr.getString(col2));
             crsr.moveToNext();
         }
         crsr.close();
@@ -75,12 +82,16 @@ public class FinishOrder extends AppCompatActivity implements AdapterView.OnItem
                 this, R.layout.support_simple_spinner_dropdown_item, compsName);
         FC.setAdapter(adp);
         FC.setOnItemSelectedListener(this);
-
         exist = false;
-
 
     }
 
+    /**
+     * The On-Click method of the SUBMIT Button Widget.
+     * Checks if the user has selected a Food Company and has entered a card number of an active worker.
+     * If so, completes the order and inserts new rows into the Orders and Meals tables.
+     * @param view
+     */
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void submit(View view) {
         if (spinPos == 0)
@@ -107,16 +118,15 @@ public class FinishOrder extends AppCompatActivity implements AdapterView.OnItem
                 Toast.makeText(this, "Card Number Does Not Match Any Active Worker", Toast.LENGTH_LONG).show();
             else {
                 cv = new ContentValues();
-                cv.put(Meal.APPETIZER, food.get(0).toString());
-                cv.put(Meal.MAINDISH, food.get(1).toString());
-                cv.put(Meal.SIDE, food.get(2).toString());
-                cv.put(Meal.DESSERT, food.get(3).toString());
-                cv.put(Meal.DRINK, food.get(4).toString());
+                cv.put(Meal.APPETIZER, food.get(0));
+                cv.put(Meal.MAINDISH, food.get(1));
+                cv.put(Meal.SIDE, food.get(2));
+                cv.put(Meal.DESSERT, food.get(3));
+                cv.put(Meal.DRINK, food.get(4));
                 db = hlp.getWritableDatabase();
                 keyIDMeal = db.insert(Meal.TABLE_MEALS, null, cv);
                 db.close();
                 cv.clear();
-
 
                 cv = new ContentValues();
                 cv.put(Order.WORKER, keyIDWork);
@@ -131,11 +141,8 @@ public class FinishOrder extends AppCompatActivity implements AdapterView.OnItem
                 si = new Intent(this, MainActivity.class);
                 startActivity(si);
 
-
             }
         }
-
-
     }
 
     /**
@@ -148,17 +155,24 @@ public class FinishOrder extends AppCompatActivity implements AdapterView.OnItem
     }
 
 
+    /**
+     * The onItemSelected Listener for the food companies Spinner Widget.
+     * Sets the keyIDcomp variable (the one that holds the keyID of the selected food company),
+     * to the one chosen in the Spinner Widget.
+     * @param adapterView
+     * @param view
+     * @param i
+     * @param l
+     */
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         spinPos = i;
         if (i != 0) {
-            keyIDComp = String.valueOf(i);
+            keyIDComp = compIDs.get(i - 1).toString();
         }
-
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
-
     }
 }

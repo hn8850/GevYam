@@ -1,7 +1,5 @@
 package com.example.gevyam;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
@@ -19,13 +17,10 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
-// add ID verification, check about name filtering
+import androidx.appcompat.app.AppCompatActivity;
 
 /**
- * @author Harel Navon hn8850@bs.amalnet.k12.il
- * @version 1.0
- * @since 2/10/2022 In this Activity, the user can add new details to the Worker and Company databases.
+ * In this Activity, the user can add new details to the Worker and Company databases.
  */
 
 
@@ -65,12 +60,10 @@ public class GetInfo extends AppCompatActivity implements CompoundButton.OnCheck
     Intent si;
     int mode;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_get_info);
-
         title = findViewById(R.id.Title);
         title.setText(R.string.SetTitle);
         pic = findViewById(R.id.pic);
@@ -100,9 +93,7 @@ public class GetInfo extends AppCompatActivity implements CompoundButton.OnCheck
         hlp = new HelperDB(this);
         workerMode();
         mode = 0;
-
     }
-
 
     /**
      * The On Click Method for the submit button. Receives the information submitted by the user,
@@ -132,14 +123,12 @@ public class GetInfo extends AppCompatActivity implements CompoundButton.OnCheck
             db.insert(Worker.TABLE_WORKERS, null, cv);
             db.close();
             Toast.makeText(this, "Worker added successfully!", Toast.LENGTH_SHORT).show();
-            clear();
             //}
         } else {
             FCname = et1.getText().toString();
             FCtax = et2.getText().toString();
             FCmain = et3.getText().toString();
             FCsecondary = et4.getText().toString();
-
 
             //if (check_FC()) {
             cv.put(Company.NAME, FCname);
@@ -152,10 +141,8 @@ public class GetInfo extends AppCompatActivity implements CompoundButton.OnCheck
             db.insert(Company.TABLE_COMPANIES, null, cv);
             db.close();
             Toast.makeText(this, "Food Company added successfully!", Toast.LENGTH_SHORT).show();
-            clear();
         }
-
-
+        clear();
     }
 
     /**
@@ -184,8 +171,6 @@ public class GetInfo extends AppCompatActivity implements CompoundButton.OnCheck
             Toast.makeText(this, "Please enter a valid phone number!", Toast.LENGTH_SHORT).show();
             return false;
         }
-
-
         return true;
     }
 
@@ -196,7 +181,7 @@ public class GetInfo extends AppCompatActivity implements CompoundButton.OnCheck
         }
 
         if (!android.text.TextUtils.isDigitsOnly(FCtax)) {
-            Toast.makeText(this, "Please enter a valid Tax number!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Please enter a valid tax number!", Toast.LENGTH_SHORT).show();
             return false;
         }
 
@@ -208,12 +193,8 @@ public class GetInfo extends AppCompatActivity implements CompoundButton.OnCheck
             Toast.makeText(this, "Please enter a valid phone number!", Toast.LENGTH_SHORT).show();
             return false;
         }
-
-
         return true;
-
     }
-
 
     /**
      * Checks if the given ID is valid according to Israeli standards.
@@ -239,10 +220,8 @@ public class GetInfo extends AppCompatActivity implements CompoundButton.OnCheck
             if (x > 9) x = x % 10 + x / 10;
             sum += x;
         }
-        if (sum % 10 != 0) return false;
-        return true;
+        return sum % 10 == 0;
     }
-
 
     /**
      * On click method of the Clear button, uses the clear method.
@@ -262,7 +241,6 @@ public class GetInfo extends AppCompatActivity implements CompoundButton.OnCheck
         finish();
     }
 
-
     /**
      * Sets all of the Views according to the information needed for a new worker.
      */
@@ -281,10 +259,7 @@ public class GetInfo extends AppCompatActivity implements CompoundButton.OnCheck
         et5.setVisibility(View.VISIBLE);
         et5.setEnabled(true);
         clear();
-
         pic.setImageResource(R.drawable.worker);
-
-
     }
 
     /**
@@ -304,10 +279,7 @@ public class GetInfo extends AppCompatActivity implements CompoundButton.OnCheck
         et5.setEnabled(false);
         et5.setVisibility(View.INVISIBLE);
         clear();
-
-
         pic.setImageResource(R.drawable.radio1);
-
 
     }
 
@@ -348,7 +320,6 @@ public class GetInfo extends AppCompatActivity implements CompoundButton.OnCheck
             addComp.setTextColor(Color.rgb(98, 0, 238));
             mode = 1;
             companyMode();
-
         }
     }
 
@@ -368,25 +339,17 @@ public class GetInfo extends AppCompatActivity implements CompoundButton.OnCheck
         } else if (id == R.id.setting) {
             si = new Intent(this, infoHub.class);
             startActivity(si);
-        }
-        /*
-        else if (id == R.id.order) {
+        } else if (id == R.id.order) {
             si = new Intent(this, GetOrder.class);
             startActivity(si);
-        }
-        else if (id == R.id.infoOrder) {
-            si = new Intent(this, ShowOrder.class);
+        } else if (id == R.id.infoOrder) {
+            si = new Intent(this, showOrder.class);
             startActivity(si);
-        }
-
-         */
-        else {
+        } else {
             si = new Intent(this, credits.class);
             startActivity(si);
         }
-
         return true;
     }
-
 
 }

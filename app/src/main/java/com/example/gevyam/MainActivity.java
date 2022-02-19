@@ -26,6 +26,11 @@ public class MainActivity extends AppCompatActivity {
         startActivity(si);
     }
 
+    public void prevOrder(View view) {
+        si = new Intent(this,showOrder.class);
+        startActivity(si);
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
