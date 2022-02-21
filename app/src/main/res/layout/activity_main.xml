@@ -7,15 +7,23 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar5"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.1"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme" />
+
     <Space
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="10" />
+        android:layout_weight="3" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="30"
+        android:layout_weight="25"
         android:orientation="horizontal">
 
         <Space
@@ -23,30 +31,24 @@
             android:layout_height="match_parent"
             android:layout_weight="20" />
 
-        <ImageButton
-            android:id="@+id/makeOrd"
+        <ImageView
+            android:id="@+id/imageView"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="60"
-            android:onClick="orderGo"
-            app:srcCompat="@drawable/ic_launcher_background"
-            tools:ignore="SpeakableTextPresentCheck" />
+            android:layout_weight="600"
+            app:srcCompat="@drawable/gevyum" />
 
         <Space
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="20" />
-    </LinearLayout>
 
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="10" />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="30"
+        android:layout_weight="10"
         android:orientation="horizontal">
 
         <Space
@@ -54,31 +56,72 @@
             android:layout_height="match_parent"
             android:layout_weight="1" />
 
-        <Button
+        <android.widget.Button
+            android:id="@+id/makeOrd"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/gradient"
+            android:onClick="orderGo"
+            android:text="order"
+            android:textColor="#FFFFFF" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+    </LinearLayout>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="3" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="5"
+        android:orientation="horizontal">
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <android.widget.Button
             android:id="@+id/prev"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="4"
+            android:background="@drawable/gradient"
             android:onClick="prevOrder"
-            android:text="previous orders" />
+            android:text="previous orders"
+            android:textColor="#FFFFFF" />
 
         <Space
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1" />
 
-        <Button
+        <android.widget.Button
             android:id="@+id/infogo"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="4"
+            android:background="@drawable/gradient"
             android:onClick="infogo"
-            android:text="information settings" />
+            android:text="information settings"
+            android:textColor="#ffffff" />
 
         <Space
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1" />
     </LinearLayout>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="5" />
 
 </LinearLayout>

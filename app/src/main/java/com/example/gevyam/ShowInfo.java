@@ -1,18 +1,22 @@
 package com.example.gevyam;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -24,6 +28,9 @@ import java.util.ArrayList;
 
 public class ShowInfo extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener, AdapterView.OnItemClickListener, AdapterView.OnItemSelectedListener {
     Switch sw;
+    Button add;
+    ActionBar aBar;
+    ColorDrawable cd;
 
     TextView workTv, compTv;
     TextView info;
@@ -78,6 +85,13 @@ public class ShowInfo extends AppCompatActivity implements CompoundButton.OnChec
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_info);
 
+
+        add = findViewById(R.id.add);
+        add.setBackgroundColor(getResources().getColor(R.color.worker));
+        add.setText("Add Worker");
+        add.setCompoundDrawablesWithIntrinsicBounds(0, 0,R.drawable.ic_baseline_person_add_alt_1_24 ,0);
+
+
         info = findViewById(R.id.info);
         info.setText("Card Number, First Name, Last Name, ID, Company, Status");
         sw = findViewById(R.id.sw3);
@@ -89,7 +103,11 @@ public class ShowInfo extends AppCompatActivity implements CompoundButton.OnChec
         compTv.setTextSize(15);
         workTv.setTextSize(20);
         workTv.setTypeface(null, Typeface.BOLD);
-        workTv.setTextColor(Color.rgb(98, 0, 238));
+        workTv.setTextColor(Color.BLACK);
+
+        aBar = getSupportActionBar();
+        cd = new ColorDrawable(getResources().getColor(R.color.worker));
+        aBar.setBackgroundDrawable(cd);
 
         lv = findViewById(R.id.lv);
         lv.setOnItemClickListener(this);
@@ -122,21 +140,20 @@ public class ShowInfo extends AppCompatActivity implements CompoundButton.OnChec
     @Override
     protected void onResume() {
         super.onResume();
-        showSP.setSelection(0);
-        sortSP.setSelection(0);
-        showPos = 0;
-        sortPos = 0;
-        if (!sw.isChecked()) {
-            sortWorker(true, Worker.KEY_ID);
-            info.setText("Card Number, First Name, Last Name, ID, Company, Status");
-            mode = 0;
-        } else {
-            sortCompany(true, Company.KEY_ID);
-            info.setText("Company Number, Company Name, Tax Number, Main Phone, Secondary Phone, Status");
-            mode = 1;
-        }
+        if (sortPos == 0 && mode == 0) sortWorker(true, Worker.KEY_ID);
+        else if (sortPos == 1 && mode == 0) sortWorker(false, Worker.KEY_ID);
+        else if (sortPos == 2 && mode == 0) sortWorker(true, Worker.LAST_NAME);
+        else if (sortPos == 3 && mode == 0) sortWorker(false, Worker.LAST_NAME);
+        else if (sortPos == 4 && mode == 0) sortWorker(true, Worker.COMPANY_NAME);
+        else if (sortPos == 5 && mode == 0) sortWorker(false, Worker.COMPANY_NAME);
+        else if (sortPos == 0 && mode == 1) sortCompany(true, Company.KEY_ID);
+        else if (sortPos == 1 && mode == 1) sortCompany(false, Company.KEY_ID);
+        else if (sortPos == 2 && mode == 1) sortCompany(true, Company.NAME);
+        else if (sortPos == 3 && mode == 1) sortCompany(false, Company.NAME);
 
     }
+
+
 
     /**
      * On Click method of the back button. Takes the user back to the infoHub Activity.
@@ -158,12 +175,17 @@ public class ShowInfo extends AppCompatActivity implements CompoundButton.OnChec
     @Override
     public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
         if (!b) {
+            cd = new ColorDrawable(getResources().getColor(R.color.worker));
+            aBar.setBackgroundDrawable(cd);
+            add.setBackgroundColor(getResources().getColor(R.color.worker));
+            add.setText("Add Worker");
+            add.setCompoundDrawablesWithIntrinsicBounds(0, 0,R.drawable.ic_baseline_person_add_alt_1_24 ,0);
             compTv.setTypeface(null, Typeface.NORMAL);
             compTv.setTextColor(Color.BLACK);
             compTv.setTextSize(15);
             workTv.setTextSize(20);
             workTv.setTypeface(null, Typeface.BOLD);
-            workTv.setTextColor(Color.rgb(98, 0, 238));
+            workTv.setTextColor(Color.BLACK);
             mode = 0;
             showADP = new ArrayAdapter<>(this,
                     R.layout.support_simple_spinner_dropdown_item, showWork);
@@ -175,12 +197,17 @@ public class ShowInfo extends AppCompatActivity implements CompoundButton.OnChec
             sortWorker(true, Worker.KEY_ID);
 
         } else {
+            cd = new ColorDrawable(getResources().getColor(R.color.company));
+            aBar.setBackgroundDrawable(cd);
+            add.setBackgroundColor(getResources().getColor(R.color.company));
+            add.setText("Add Food Company");
+            add.setCompoundDrawablesWithIntrinsicBounds(0, 0,R.drawable.ic_baseline_add_business_24 ,0);
             workTv.setTypeface(null, Typeface.NORMAL);
             workTv.setTextColor(Color.BLACK);
             workTv.setTextSize(15);
             compTv.setTextSize(20);
             compTv.setTypeface(null, Typeface.BOLD);
-            compTv.setTextColor(Color.rgb(98, 0, 238));
+            workTv.setTextColor(Color.BLACK);
             showADP = new ArrayAdapter<>(this,
                     R.layout.support_simple_spinner_dropdown_item, showComp);
             showSP.setAdapter(showADP);
@@ -209,9 +236,7 @@ public class ShowInfo extends AppCompatActivity implements CompoundButton.OnChec
         if (id == R.id.mainhome) {
             si = new Intent(this, MainActivity.class);
             startActivity(si);
-        } else if (id == R.id.setting) {
-            si = new Intent(this, infoHub.class);
-            startActivity(si);
+
         }
         /*
         else if (id == R.id.order) {
@@ -377,5 +402,11 @@ public class ShowInfo extends AppCompatActivity implements CompoundButton.OnChec
     public void onNothingSelected(AdapterView<?> adapterView) {
 
 
+    }
+
+    public void add(View view) {
+        si = new Intent(this,GetInfo.class);
+        si.putExtra("mode",mode);
+        startActivity(si);
     }
 }

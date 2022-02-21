@@ -16,8 +16,9 @@ import java.util.ArrayList;
 
 public class showOrder extends AppCompatActivity implements AdapterView.OnItemSelectedListener, AdapterView.OnItemClickListener {
 
-
-    TextView about, mealInfo;
+    TextView order;
+    TextView tv1,tv2,tv3,tv4,tv5,tv6;
+    TextView tvAPP,tvMAIN,tvSIDE,tvDES,tvDRI,tvTIME;
     String[] mealAll;
 
     SQLiteDatabase db;
@@ -53,8 +54,21 @@ public class showOrder extends AppCompatActivity implements AdapterView.OnItemSe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_order);
 
-        about = findViewById(R.id.textView3);
-        mealInfo = findViewById(R.id.textView4);
+        order = findViewById(R.id.textView);
+
+        tv1 = findViewById(R.id.textView4);
+        tv2 = findViewById(R.id.textView5);
+        tv3 = findViewById(R.id.textView6);
+        tv4 = findViewById(R.id.textView7);
+        tv5 = findViewById(R.id.textView8);
+        tv6 = findViewById(R.id.textView3);
+
+        tvAPP = findViewById(R.id.textView9);
+        tvMAIN = findViewById(R.id.textView10);
+        tvSIDE = findViewById(R.id.textView11);
+        tvDES = findViewById(R.id.textView12);
+        tvDRI = findViewById(R.id.textView13);
+        tvTIME = findViewById(R.id.textView14);
 
         sortSP = findViewById(R.id.sortSP);
         lv = findViewById(R.id.lv);
@@ -136,7 +150,18 @@ public class showOrder extends AppCompatActivity implements AdapterView.OnItemSe
 
         }
         keyID = tmp.substring(0, dotsIndex - 1);
-        about.setText("Here is some more information about : Order Number " + keyID);
+        if (tv1.getVisibility()==View.INVISIBLE)
+        {
+            tv1.setVisibility(View.VISIBLE);
+            tv2.setVisibility(View.VISIBLE);
+            tv3.setVisibility(View.VISIBLE);
+            tv4.setVisibility(View.VISIBLE);
+            tv5.setVisibility(View.VISIBLE);
+            tv6.setVisibility(View.VISIBLE);
+        }
+
+
+        order.setText("Order Number " + keyID);
         mealAll = new String[5];
         db = hlp.getReadableDatabase();
         crsr = db.query(Order.TABLE_ORDERS, new String[]{Order.MEAL}, Order.KEY_ID + "=?", new String[]{keyID}, null, null, null, null);
@@ -168,7 +193,12 @@ public class showOrder extends AppCompatActivity implements AdapterView.OnItemSe
             if (mealAll[j].isEmpty()) mealAll[j] = "NONE";
         }
 
-        mealInfo.setText("Appetizer : " + mealAll[0] + "\n" + "Main Dish : " + mealAll[1] + "\n" + "Side Dish : " + mealAll[2] + "\n" + "Dessert : " + mealAll[3] + "\n" + "Drink : " + mealAll[4] + "\n" + "Time : " + times.get(i));
+        tvAPP.setText(mealAll[0]);
+        tvMAIN.setText(mealAll[1]);
+        tvSIDE.setText(mealAll[2]);
+        tvDES.setText(mealAll[3]);
+        tvDRI.setText(mealAll[4]);
+        tvTIME.setText(times.get(i));
 
     }
 

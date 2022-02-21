@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.InputType;
 import android.text.SpannableString;
@@ -20,12 +21,15 @@ import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class specific extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener {
     Switch sw;
     TextView title;
     ImageView pic;
+    ActionBar aBar;
+    ColorDrawable cd;
 
     EditText et1;
     EditText et2;
@@ -96,6 +100,7 @@ public class specific extends AppCompatActivity implements CompoundButton.OnChec
         tVactive.setTextSize(15);
         tVNotActive.setTextSize(15);
 
+        aBar= getSupportActionBar();
 
         gi = getIntent();
         keyID = gi.getIntExtra("keyID", 0);
@@ -138,6 +143,8 @@ public class specific extends AppCompatActivity implements CompoundButton.OnChec
         et5.setInputType(InputType.TYPE_CLASS_PHONE);
         et5.setVisibility(View.VISIBLE);
 
+        cd = new ColorDrawable(getResources().getColor(R.color.worker));
+        aBar.setBackgroundDrawable(cd);
 
         db = hlp.getWritableDatabase();
         crsr = db.query(Worker.TABLE_WORKERS, null, null, null, null, null, null);
@@ -152,7 +159,7 @@ public class specific extends AppCompatActivity implements CompoundButton.OnChec
 
         crsr.moveToPosition(keyID - 1);
 
-        title.setText( R.string.specific + crsr.getString(col2) + " " + crsr.getString(col3));
+        title.setText("Here is some information about : " + crsr.getString(col2) + " " + crsr.getString(col3));
         pic.setImageResource(R.drawable.worker);
 
 
@@ -202,6 +209,9 @@ public class specific extends AppCompatActivity implements CompoundButton.OnChec
         et5.setEnabled(false);
         et5.setVisibility(View.INVISIBLE);
 
+        cd = new ColorDrawable(getResources().getColor(R.color.company));
+        aBar.setBackgroundDrawable(cd);
+
         db = hlp.getWritableDatabase();
         crsr = db.query(Company.TABLE_COMPANIES, null, null, null, null, null, null);
         col1 = crsr.getColumnIndex(Company.KEY_ID);
@@ -214,7 +224,7 @@ public class specific extends AppCompatActivity implements CompoundButton.OnChec
 
         crsr.moveToPosition(keyID - 1);
 
-        title.setText(R.string.specific+ crsr.getString(col2));
+        title.setText("Here is some information about : " + crsr.getString(col2));
 
 
         oldData = new String[]{crsr.getString(col2), crsr.getString(col3), crsr.getString(col4), crsr.getString(col5), ""};
@@ -364,12 +374,10 @@ public class specific extends AppCompatActivity implements CompoundButton.OnChec
         et2.setText(oldData[1]);
         et3.setText(oldData[2]);
         et4.setText(oldData[3]);
-        if (mode==0){
+        if (mode == 0) {
             et5.setText(oldData[4]);
             sw.setChecked(!oldData[5].equals("0"));
-        }
-        else
-        {
+        } else {
             sw.setChecked(!oldData[4].equals("0"));
         }
         sw.setClickable(false);
@@ -380,32 +388,6 @@ public class specific extends AppCompatActivity implements CompoundButton.OnChec
         clear.setText("");
         edit.setText("Edit");
 
-
-        if (counter % 2 == 1) {
-            cv = new ContentValues();
-            db = hlp.getWritableDatabase();
-            if (mode == 0) {
-
-                cv.put(Worker.FIRST_NAME, et1.getText().toString());
-                cv.put(Worker.LAST_NAME, et2.getText().toString());
-                cv.put(Worker.ID, et3.getText().toString());
-                cv.put(Worker.COMPANY_NAME, et4.getText().toString());
-                cv.put(Worker.PHONE_NUMBER, et5.getText().toString());
-                if (!sw.isChecked()) cv.put(Worker.ACTIVE, 0);
-                else cv.put(Worker.ACTIVE, 1);
-
-                db.insert(Worker.TABLE_WORKERS, null, cv);
-            } else {
-                cv.put(Company.NAME, et1.getText().toString());
-                cv.put(Company.TAX, et2.getText().toString());
-                cv.put(Company.MAIN, et3.getText().toString());
-                cv.put(Company.SECONDARY, et4.getText().toString());
-                if (!sw.isChecked()) cv.put(Worker.ACTIVE, 0);
-                else cv.put(Worker.ACTIVE, 1);
-                db.insert(Company.TABLE_COMPANIES,null,cv);
-            }
-            db.close();
-        }
         counter = 0;
 
     }

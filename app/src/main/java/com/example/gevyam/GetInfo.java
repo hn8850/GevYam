@@ -5,11 +5,13 @@ import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -17,6 +19,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 /**
@@ -24,11 +27,13 @@ import androidx.appcompat.app.AppCompatActivity;
  */
 
 
-public class GetInfo extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener {
+public class GetInfo extends AppCompatActivity {
     TextView title;
-    TextView addWork, addComp;
     ImageView pic;
+    ActionBar aBar;
+    ColorDrawable cd;
     Switch sw;
+    Button add;
 
     EditText et1;
     EditText et2;
@@ -57,7 +62,7 @@ public class GetInfo extends AppCompatActivity implements CompoundButton.OnCheck
     String FCmain;
     String FCsecondary;
 
-    Intent si;
+    Intent gi, si;
     int mode;
 
     @Override
@@ -67,16 +72,11 @@ public class GetInfo extends AppCompatActivity implements CompoundButton.OnCheck
         title = findViewById(R.id.Title);
         title.setText(R.string.SetTitle);
         pic = findViewById(R.id.pic);
-        sw = findViewById(R.id.sw2);
-        sw.setOnCheckedChangeListener(this);
-        addComp = findViewById(R.id.tv8);
-        addWork = findViewById(R.id.tv2);
-        addComp.setTypeface(null, Typeface.NORMAL);
-        addComp.setTextColor(Color.BLACK);
-        addComp.setTextSize(15);
-        addWork.setTextSize(20);
-        addWork.setTypeface(null, Typeface.BOLD);
-        addWork.setTextColor(Color.rgb(98, 0, 238));
+
+        aBar = getSupportActionBar();
+        gi = getIntent();
+        mode = gi.getIntExtra("mode",0);
+
 
         et1 = findViewById(R.id.et1);
         et2 = findViewById(R.id.et2);
@@ -91,8 +91,8 @@ public class GetInfo extends AppCompatActivity implements CompoundButton.OnCheck
         tv5 = findViewById(R.id.tv7);
 
         hlp = new HelperDB(this);
-        workerMode();
-        mode = 0;
+        if (mode == 0) workerMode();
+        else companyMode();
     }
 
     /**
@@ -250,6 +250,8 @@ public class GetInfo extends AppCompatActivity implements CompoundButton.OnCheck
         tv3.setText("ID ");
         tv4.setText("Company");
         tv5.setText("Phone Number");
+        cd = new ColorDrawable(getResources().getColor(R.color.worker));
+        aBar.setBackgroundDrawable(cd);
 
         et1.setInputType(InputType.TYPE_CLASS_TEXT);
         et2.setInputType(InputType.TYPE_CLASS_TEXT);
@@ -271,6 +273,8 @@ public class GetInfo extends AppCompatActivity implements CompoundButton.OnCheck
         tv3.setText("Main Phone");
         tv4.setText("Secondary Phone");
         tv5.setText("");
+        cd = new ColorDrawable(getResources().getColor(R.color.company));
+        aBar.setBackgroundDrawable(cd);
 
         et1.setInputType(InputType.TYPE_CLASS_TEXT);
         et2.setInputType(InputType.TYPE_CLASS_NUMBER);
@@ -294,34 +298,7 @@ public class GetInfo extends AppCompatActivity implements CompoundButton.OnCheck
         et5.setText("");
     }
 
-    /**
-     * Listener for toggles of the switch, and shifts the activity layout between worker and company modes.
-     *
-     * @param compoundButton The switch
-     * @param b              Is the switch toggled on or not?
-     */
-    @Override
-    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-        if (!b) {
-            addComp.setTypeface(null, Typeface.NORMAL);
-            addComp.setTextColor(Color.BLACK);
-            addComp.setTextSize(15);
-            addWork.setTextSize(20);
-            addWork.setTypeface(null, Typeface.BOLD);
-            addWork.setTextColor(Color.rgb(98, 0, 238));
-            workerMode();
-            mode = 0;
-        } else {
-            addWork.setTypeface(null, Typeface.NORMAL);
-            addWork.setTextColor(Color.BLACK);
-            addWork.setTextSize(15);
-            addComp.setTextSize(20);
-            addComp.setTypeface(null, Typeface.BOLD);
-            addComp.setTextColor(Color.rgb(98, 0, 238));
-            mode = 1;
-            companyMode();
-        }
-    }
+
 
 
     @Override
@@ -333,22 +310,15 @@ public class GetInfo extends AppCompatActivity implements CompoundButton.OnCheck
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.mainhome) {
+        if (id == R.id.mainhome)
             si = new Intent(this, MainActivity.class);
-            startActivity(si);
-        } else if (id == R.id.setting) {
-            si = new Intent(this, infoHub.class);
-            startActivity(si);
-        } else if (id == R.id.order) {
+        else if (id == R.id.order)
             si = new Intent(this, GetOrder.class);
-            startActivity(si);
-        } else if (id == R.id.infoOrder) {
+        else if (id == R.id.infoOrder)
             si = new Intent(this, showOrder.class);
-            startActivity(si);
-        } else {
+        else
             si = new Intent(this, credits.class);
-            startActivity(si);
-        }
+        startActivity(si);
         return true;
     }
 

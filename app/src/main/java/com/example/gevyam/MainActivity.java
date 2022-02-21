@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void infogo(View view) {
-        si = new Intent(this, infoHub.class);
+        si = new Intent(this, ShowInfo.class);
         startActivity(si);
     }
     public void orderGo(View view) {
@@ -44,10 +44,8 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.mainhome) {
 
         }
-        else if (id == R.id.setting) {
-            si = new Intent(this, infoHub.class);
-            startActivity(si);
-        }
+
+
         /*
         else if (id == R.id.order) {
             si = new Intent(this, GetOrder.class);

@@ -22,9 +22,6 @@
             android:name=".specific"
             android:exported="false" />
         <activity
-            android:name=".infoHub"
-            android:exported="false" />
-        <activity
             android:name=".credits"
             android:exported="false" />
         <activity
