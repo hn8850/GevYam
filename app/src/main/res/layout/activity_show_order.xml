@@ -19,33 +19,21 @@
         android:layout_weight="10"
         android:orientation="horizontal">
 
-        <LinearLayout
+        <Space
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="10"
-            android:orientation="vertical">
+            android:layout_weight="1" />
 
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="7" />
-
-            <ImageButton
-                android:id="@+id/imageButton2"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="12"
-                android:onClick="back"
-                android:padding="40dp"
-                android:rotationY="180"
-                android:scaleType="centerInside"
-                app:srcCompat="@drawable/back" />
-
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="7" />
-        </LinearLayout>
+        <ImageButton
+            android:id="@+id/imageButton2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="12"
+            android:backgroundTint="#FFFFFF"
+            android:onClick="back"
+            android:rotationY="0"
+            android:scaleType="centerInside"
+            app:srcCompat="@drawable/back" />
 
         <TextView
             android:id="@+id/Title"
@@ -115,6 +103,11 @@
 
     </LinearLayout>
 
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="3" />
+
     <TextView
         android:id="@+id/textView2"
         android:layout_width="match_parent"
@@ -130,7 +123,7 @@
         android:layout_height="0dp"
         android:layout_weight="5"
         android:gravity="center"
-        android:text="Worker , Food Company, Main Dish, Date"
+        android:text="Worker Name , Worker ID, Food Company, Main Dish"
         android:textStyle="bold" />
 
     <LinearLayout
@@ -237,6 +230,21 @@
                 android:layout_weight="1" />
 
             <TextView
+                android:id="@+id/textView15"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="3"
+                android:gravity="center"
+                android:text="Date :"
+                android:textStyle="bold"
+                android:visibility="invisible" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <TextView
                 android:id="@+id/textView3"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
@@ -245,6 +253,7 @@
                 android:text="Time :"
                 android:textStyle="bold"
                 android:visibility="invisible" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -316,6 +325,20 @@
                 android:layout_weight="3"
                 android:gravity="center"
                 android:textColor="#E91E63"
+                android:textStyle="bold" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/textView16"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="3"
+                android:gravity="center"
+                android:textColor="#2196F3"
                 android:textStyle="bold" />
 
             <Space

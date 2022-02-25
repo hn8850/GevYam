@@ -1,29 +1,29 @@
 package com.example.gevyam;
 
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Color;
-import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 /**
- * In this Activity, the user can add new details to the Worker and Company databases.
+ * @author : Harel Navon harelnavon2710@gmail.com
+ * @version : 1.1
+ * @since : 21.2.2022
+ * In this Activity, the user can add new information to the Worker and Company databases.
  */
 
 
@@ -32,39 +32,28 @@ public class GetInfo extends AppCompatActivity {
     ImageView pic;
     ActionBar aBar;
     ColorDrawable cd;
-    Switch sw;
-    Button add;
 
-    EditText et1;
-    EditText et2;
-    EditText et3;
-    EditText et4;
-    EditText et5;
-
-    TextView tv1;
-    TextView tv2;
-    TextView tv3;
-    TextView tv4;
-    TextView tv5;
+    EditText et1, et2, et3, et4, et5;
+    TextView tv1, tv2, tv3, tv4, tv5;
 
     SQLiteDatabase db;
     HelperDB hlp;
     ContentValues cv;
 
-    String ID;
-    String name1;
-    String name2;
-    String company;
-    String phone;
-
-    String FCname;
-    String FCtax;
-    String FCmain;
-    String FCsecondary;
+    Long keyID;
+    String ID, name1, name2, company, phone;
+    String FCname, FCtax, FCmain, FCsecondary;
 
     Intent gi, si;
     int mode;
+    AlertDialog.Builder adb;
 
+    /**
+     * Sets up all of the Widgets in the Activity, according to the value for the mode variable, which
+     * determines if the user has chosen to add a new company , or a new worker.
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,8 +64,7 @@ public class GetInfo extends AppCompatActivity {
 
         aBar = getSupportActionBar();
         gi = getIntent();
-        mode = gi.getIntExtra("mode",0);
-
+        mode = gi.getIntExtra("mode", 0);
 
         et1 = findViewById(R.id.et1);
         et2 = findViewById(R.id.et2);
@@ -112,37 +100,54 @@ public class GetInfo extends AppCompatActivity {
             company = et4.getText().toString();
             phone = et5.getText().toString();
 
-            //if (check_worker()) {
-            cv.put(Worker.FIRST_NAME, name1);
-            cv.put(Worker.LAST_NAME, name2);
-            cv.put(Worker.ID, ID);
-            cv.put(Worker.COMPANY_NAME, company);
-            cv.put(Worker.PHONE_NUMBER, phone);
-            cv.put(Worker.ACTIVE, "0");
+            if (check_worker()) {
+                cv.put(Worker.FIRST_NAME, name1);
+                cv.put(Worker.LAST_NAME, name2);
+                cv.put(Worker.ID, ID);
+                cv.put(Worker.COMPANY_NAME, company);
+                cv.put(Worker.PHONE_NUMBER, phone);
+                cv.put(Worker.ACTIVE, "0");
 
-            db.insert(Worker.TABLE_WORKERS, null, cv);
-            db.close();
-            Toast.makeText(this, "Worker added successfully!", Toast.LENGTH_SHORT).show();
-            //}
+                keyID = db.insert(Worker.TABLE_WORKERS, null, cv);
+                db.close();
+
+                adb = new AlertDialog.Builder(this);
+                adb.setTitle("Attention!");
+                adb.setIcon(R.drawable.exclamation_mark_red);
+                adb.setMessage("Your Worker Card Number is " + keyID);
+                adb.setNeutralButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+                AlertDialog ad = adb.create();
+                ad.show();
+
+                Toast.makeText(this, "Worker added successfully!", Toast.LENGTH_SHORT).show();
+                clear();
+            }
         } else {
             FCname = et1.getText().toString();
             FCtax = et2.getText().toString();
             FCmain = et3.getText().toString();
             FCsecondary = et4.getText().toString();
 
-            //if (check_FC()) {
-            cv.put(Company.NAME, FCname);
-            cv.put(Company.TAX, FCtax);
-            cv.put(Company.MAIN, FCmain);
-            cv.put(Company.SECONDARY, FCsecondary);
-            cv.put(Company.ACTIVE, "0");
+            if (check_FC()) {
+                cv.put(Company.NAME, FCname);
+                cv.put(Company.TAX, FCtax);
+                cv.put(Company.MAIN, FCmain);
+                cv.put(Company.SECONDARY, FCsecondary);
+                cv.put(Company.ACTIVE, "0");
 
-            db = hlp.getWritableDatabase();
-            db.insert(Company.TABLE_COMPANIES, null, cv);
-            db.close();
-            Toast.makeText(this, "Food Company added successfully!", Toast.LENGTH_SHORT).show();
+                db = hlp.getWritableDatabase();
+                db.insert(Company.TABLE_COMPANIES, null, cv);
+                db.close();
+                Toast.makeText(this, "Food Company added successfully!", Toast.LENGTH_SHORT).show();
+                clear();
+            }
         }
-        clear();
+
     }
 
     /**
@@ -167,15 +172,20 @@ public class GetInfo extends AppCompatActivity {
             return false;
         }
 
-        if (!android.text.TextUtils.isDigitsOnly(phone) || phone.length() != 10) {
+        if (!android.text.TextUtils.isDigitsOnly(phone) || (phone.length() != 10 && phone.length() != 9)) {
             Toast.makeText(this, "Please enter a valid phone number!", Toast.LENGTH_SHORT).show();
             return false;
         }
         return true;
     }
 
+    /**
+     * Checks is the info submitted by the user in the company section is valid
+     *
+     * @return True or False accordingly.
+     */
     public boolean check_FC() {
-        if (FCmain.matches("")) {
+        if (FCname.matches("")) {
             Toast.makeText(this, "Please enter a valid Food Company name!", Toast.LENGTH_SHORT).show();
             return false;
         }
@@ -185,11 +195,11 @@ public class GetInfo extends AppCompatActivity {
             return false;
         }
 
-        if (!android.text.TextUtils.isDigitsOnly(FCmain) || FCmain.length() != 10) {
+        if (!android.text.TextUtils.isDigitsOnly(FCmain) || (FCmain.length() != 10 && FCmain.length() != 9)) {
             Toast.makeText(this, "Please enter a valid phone number!", Toast.LENGTH_SHORT).show();
             return false;
         }
-        if (!android.text.TextUtils.isDigitsOnly(FCsecondary) || FCsecondary.length() != 10) {
+        if (!android.text.TextUtils.isDigitsOnly(FCsecondary) || (FCsecondary.length() != 10 && FCsecondary.length() != 9)) {
             Toast.makeText(this, "Please enter a valid phone number!", Toast.LENGTH_SHORT).show();
             return false;
         }
@@ -223,23 +233,6 @@ public class GetInfo extends AppCompatActivity {
         return sum % 10 == 0;
     }
 
-    /**
-     * On click method of the Clear button, uses the clear method.
-     *
-     * @param view
-     */
-    public void clrButton(View view) {
-        clear();
-    }
-
-    /**
-     * On Click method of the back button. Takes the user back to the infoHub Activity.
-     *
-     * @param view
-     */
-    public void back(View view) {
-        finish();
-    }
 
     /**
      * Sets all of the Views according to the information needed for a new worker.
@@ -288,6 +281,24 @@ public class GetInfo extends AppCompatActivity {
     }
 
     /**
+     * On click method of the Clear button, uses the clear method.
+     *
+     * @param view
+     */
+    public void clrButton(View view) {
+        clear();
+    }
+
+    /**
+     * On Click method of the back button. Takes the user back to the infoHub Activity.
+     *
+     * @param view
+     */
+    public void back(View view) {
+        finish();
+    }
+
+    /**
      * Clears all of the Text from the EditText's.
      */
     public void clear() {
@@ -299,25 +310,39 @@ public class GetInfo extends AppCompatActivity {
     }
 
 
-
-
+    /**
+     * Creates the General Options Menu (menu.xml) for this Activity.
+     *
+     * @param menu
+     * @return
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
+
+    /**
+     * Sends the user over to the Activity chosen in the Options Menu.
+     *
+     * @param item
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.mainhome)
+        if (id == R.id.mainhome) {
             si = new Intent(this, MainActivity.class);
-        else if (id == R.id.order)
+        } else if (id == R.id.order) {
             si = new Intent(this, GetOrder.class);
-        else if (id == R.id.infoOrder)
+        } else if (id == R.id.infoOrder) {
             si = new Intent(this, showOrder.class);
-        else
+        } else if (id == R.id.setting) {
+            si = new Intent(this, ShowInfo.class);
+        } else {
             si = new Intent(this, credits.class);
+        }
         startActivity(si);
         return true;
     }

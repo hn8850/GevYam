@@ -28,5 +28,9 @@
     In order to access this information, simply click a cell in the table and all of the information regarding that cell will be shown.
     Now you will also have access to edit the information displayed, and by toggling the switch below</string>
 
+    <string name="credits">This app was developed mainly by Harel Navon.
+    Huge thanks to my fellow peers who helped me with this project.
+    Mostly referring to Yuval Navon, Harel Leibovich and Noya Perez.</string>
+
 
 </resources>

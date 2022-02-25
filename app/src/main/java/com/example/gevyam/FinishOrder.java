@@ -9,6 +9,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -20,8 +22,11 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 /**
- * In this Activity, the user completes his food order, by choosing a food company and entering
- * his worker card number.
+ * @author : Harel Navon harelnavon2710@gmail.com
+ * @version : 1.1
+ * @since : 21.2.2022
+ * In this Activity, the user completes their food order, by choosing a food company and entering
+ * their worker card number.
  */
 
 public class FinishOrder extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
@@ -50,6 +55,7 @@ public class FinishOrder extends AppCompatActivity implements AdapterView.OnItem
     /**
      * Sets up the necessary information to complete a food order. Sets up a Spinner Widget with
      * all of the active Food Companies.
+     *
      * @param savedInstanceState
      */
     @Override
@@ -90,6 +96,7 @@ public class FinishOrder extends AppCompatActivity implements AdapterView.OnItem
      * The On-Click method of the SUBMIT Button Widget.
      * Checks if the user has selected a Food Company and has entered a card number of an active worker.
      * If so, completes the order and inserts new rows into the Orders and Meals tables.
+     *
      * @param view
      */
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -145,20 +152,11 @@ public class FinishOrder extends AppCompatActivity implements AdapterView.OnItem
         }
     }
 
-    /**
-     * On Click method of the back button. Takes the user back to the infoHub Activity.
-     *
-     * @param view
-     */
-    public void back(View view) {
-        finish();
-    }
-
 
     /**
      * The onItemSelected Listener for the food companies Spinner Widget.
-     * Sets the keyIDcomp variable (the one that holds the keyID of the selected food company),
-     * to the one chosen in the Spinner Widget.
+     * Sets the keyIDcomp variable to the keyID of the selected food company.
+     *
      * @param adapterView
      * @param view
      * @param i
@@ -174,5 +172,51 @@ public class FinishOrder extends AppCompatActivity implements AdapterView.OnItem
 
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
+    }
+
+    /**
+     * On Click method of the back button. Takes the user back to the Main Activity.
+     *
+     * @param view
+     */
+    public void back(View view) {
+        finish();
+    }
+
+    /**
+     * Creates the General Options Menu (menu.xml) for this Activity.
+     *
+     * @param menu
+     * @return
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
+
+    /**
+     * Sends the user over to the Activity chosen in the Options Menu.
+     *
+     * @param item
+     * @return
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.mainhome) {
+            si = new Intent(this, MainActivity.class);
+        } else if (id == R.id.order) {
+            si = new Intent(this, GetOrder.class);
+        } else if (id == R.id.infoOrder) {
+            si = new Intent(this, showOrder.class);
+        } else if (id == R.id.setting) {
+            si = new Intent(this, ShowInfo.class);
+        } else {
+            si = new Intent(this, credits.class);
+        }
+        startActivity(si);
+        return true;
     }
 }

@@ -1,5 +1,12 @@
 package com.example.gevyam;
 
+/**
+ * @author : Harel Navon harelnavon2710@gmail.com
+ * @version : 1.1
+ * @since : 21.2.2022
+ * This is the Java Class for the Workers Table in the database.
+ */
+
 public class Worker {
     public final static String TABLE_WORKERS = "Workers";
     public final static String KEY_ID = "_id";
