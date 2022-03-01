@@ -42,9 +42,14 @@
             android:layout_height="match_parent"
             android:layout_weight="4"
             android:gravity="center"
-            android:text="Welcome to the credit screen, dear user."
+            android:text="Welcome to the credits screen, dear user."
             android:textSize="20sp"
             android:textStyle="bold" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.1" />
 
         <ImageView
             android:id="@+id/pic"
@@ -52,6 +57,11 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             app:srcCompat="@drawable/smiley" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.1" />
 
     </LinearLayout>
 
